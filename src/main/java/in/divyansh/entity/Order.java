@@ -61,6 +61,8 @@ public class Order {
 	
 	private LocalDateTime orderDate;
 	
+	
+	
 	@PrePersist
 	public void generateOrderNumber() {
 		if(this.orderNumber==null) {
@@ -71,10 +73,15 @@ public class Order {
 		}
 	}
 	public void addOrderItem(OrderItem item) {
+		orderItems.add(item);
+		item.setOrder(this);
 		
 	}
 	public void calculateTotals() {
-		
+		double total=0.0;
+		for(OrderItem item:orderItems) {
+			total=total+item.getSubTotal();
+		}
+		this.totalAmount=total;
 	}
-
 }
